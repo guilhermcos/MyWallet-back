@@ -7,8 +7,8 @@
     "mongodb": "^5.2.0"
   },
   "scripts": {
-    "start": "node ./src/app.js",
-    "dev": "nodemon run ./src/app.js",
+    "start": "node ./src/index.js",
+    "dev": "nodemon run ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
