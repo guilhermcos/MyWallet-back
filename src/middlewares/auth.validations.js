@@ -1,12 +1,9 @@
-import Schemas from "./schemas.js";
-const schemas = new Schemas();
 import { getDataBase } from "../database/database.js";
 
-export default class Validations {
-  async validateRegister(req, res, next) {
+export default class AuthValidations {
+  async validateSignUp(req, res, next) {
     try {
-      await schemas.schemaRegisterUser(req.body);
-      const { name, email, password } = req.body;
+      const { email } = req.body;
       const db = getDataBase();
       const registeredUser = await db
         .collection("users")
@@ -16,10 +13,9 @@ export default class Validations {
       }
       next();
     } catch (err) {
-      if (err.isJoi) {
-        return res.status(422).send(err.message);
-      }
       return res.status(500).send("Internal server error");
     }
   }
+
+  async validateSignIn(req, res, next) {}
 }

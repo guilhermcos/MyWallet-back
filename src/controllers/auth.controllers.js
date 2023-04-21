@@ -2,8 +2,8 @@ import { getDataBase } from "../database/database.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 
-export default class UserControllers {
-  async registerUser(req, res) {
+export default class AuthControllers {
+  async signUp(req, res) {
     const { name, email, password } = req.body;
     const encryptedPassword = bcrypt.hashSync(password, 10);
     const newUser = {
@@ -19,7 +19,7 @@ export default class UserControllers {
       res.status(500).send(err.message);
     }
   }
-  async login(req, res) {
+  async signIn(req, res) {
     const { email } = req.body;
     const token = uuid();
     const db = getDataBase();
