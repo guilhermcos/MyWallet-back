@@ -9,11 +9,16 @@ const authControllers = new AuthControllers();
 const sessionRouter = Router();
 
 sessionRouter.post(
-  "/cadastro",
+  "/auth/signup",
   schemaValidate(joiSchemas.schemaSignUp),
   authvalidations.validateSignUp,
   authControllers.signUp
 );
-sessionRouter.post("/", authControllers.signIn);
+sessionRouter.post(
+  "/auth/signin",
+  schemaValidate(joiSchemas.schemaSignIn),
+  authvalidations.validateSignIn,
+  authControllers.signIn
+);
 
 export default sessionRouter;

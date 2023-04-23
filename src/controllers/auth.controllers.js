@@ -6,28 +6,29 @@ export default class AuthControllers {
   async signUp(req, res) {
     const { name, email, password } = req.body;
     const encryptedPassword = bcrypt.hashSync(password, 10);
-    const newUser = {
-      name: name,
-      email: email,
-      password: encryptedPassword,
-    };
-    const db = getDataBase();
     try {
-      db.collection("users").insertOne(newUser);
+      const db = getDataBase();
+      await db.collection("users").insertOne({
+        name,
+        email,
+        password: encryptedPassword,
+      });
       res.status(201).send("OK");
     } catch (err) {
       res.status(500).send(err.message);
     }
   }
+
   async signIn(req, res) {
     const { email } = req.body;
     const token = uuid();
     const db = getDataBase();
     try {
       const user = await db.collection("users").findOne({ email: email });
-      await db
-        .collection("sessions")
-        .insertOne({ userId: user._id, token: token });
+      await db.collection("sessions").insertOne({
+        userId: user._id,
+        token,
+      });
       res.status(200).send({ token: token });
     } catch (err) {
       res.status(500).send("Internal server error");
