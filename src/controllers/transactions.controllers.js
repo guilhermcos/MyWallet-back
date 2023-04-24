@@ -24,4 +24,23 @@ export default class TransactionsControllers {
       return res.status(500).send(err);
     }
   }
+
+  async getUserTransactions(req, res) {
+    const db = getDataBase();
+    const reqToken = req.headers.authorization?.replace("Bearer ", "");
+    try {
+      const session = await db
+        .collection("sessions")
+        .findOne({ token: reqToken });
+      if (!session) return res.sendStatus(401);
+      const transactions = await db
+        .collection("transactions")
+        .find({ userId: session.userId })
+        .sort({ _id: -1 })
+        .toArray();
+      return res.status(200).send(transactions);
+    } catch (err) {
+      return res.status(500).send(err.message);
+    }
+  }
 }

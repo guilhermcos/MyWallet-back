@@ -14,5 +14,10 @@ transactionRouter.post(
   schemaValidate(transactionsSchemas.schemaNewTransaction),
   transactionsControllers.newTransaction
 );
+transactionRouter.get(
+  "/transactions/get",
+  validateToken,
+  transactionsControllers.getUserTransactions
+);
 
 export default transactionRouter;
