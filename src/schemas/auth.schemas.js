@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const joiSchemas = {
+const authSchemas = {
   schemaSignUp: Joi.object({
     name: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
@@ -13,4 +13,4 @@ const joiSchemas = {
   }).unknown(true),
 };
 
-export default joiSchemas;
+export default authSchemas;
