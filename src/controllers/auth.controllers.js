@@ -29,7 +29,8 @@ export default class AuthControllers {
         userId: user._id,
         token,
       });
-      res.status(200).send({ token: token });
+      const userFirstName = user.name.split(" ")[0];
+      res.status(200).send({ name: userFirstName, token: token });
     } catch (err) {
       res.status(500).send("Internal server error");
     }
