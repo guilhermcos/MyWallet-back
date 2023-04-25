@@ -2,6 +2,7 @@ import { getDataBase } from "../database/database.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
+import { ObjectId } from "mongodb";
 
 export default class TransactionsControllers {
   async newTransaction(req, res) {
@@ -41,6 +42,27 @@ export default class TransactionsControllers {
       return res.status(200).send(transactions);
     } catch (err) {
       return res.status(500).send(err.message);
+    }
+  }
+
+  async editTransaction(req, res) {
+    const { id } = req.params;
+    const transactionId = new ObjectId(id);
+    const { description, value } = req.body;
+    const db = getDataBase();
+    try {
+      const transaction = await db
+        .collection("transactions")
+        .findOne({ _id: transactionId });
+        console.log(transaction)
+      const editedTransaction = { ...transaction, description, value };
+      console.log(editedTransaction);
+      await db
+        .collection("transactions")
+        .updateOne({ _id: transactionId }, { $set: editedTransaction });
+      res.sendStatus(201);
+    } catch (err) {
+      res.status(500).send(err.message);
     }
   }
 }
