@@ -56,7 +56,6 @@ export default class TransactionsControllers {
         .findOne({ _id: transactionId });
         console.log(transaction)
       const editedTransaction = { ...transaction, description, value };
-      console.log(editedTransaction);
       await db
         .collection("transactions")
         .updateOne({ _id: transactionId }, { $set: editedTransaction });
