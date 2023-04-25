@@ -27,5 +27,10 @@ transactionRouter.put(
   transactionsValidations.validateEditTransaction,
   transactionsControllers.editTransaction
 );
+transactionRouter.delete(
+  "/transactions/delete-transaction/:id",
+  validateToken,
+  transactionsControllers.deleteTransaction
+);
 
 export default transactionRouter;

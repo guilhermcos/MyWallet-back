@@ -54,12 +54,23 @@ export default class TransactionsControllers {
       const transaction = await db
         .collection("transactions")
         .findOne({ _id: transactionId });
-        console.log(transaction)
       const editedTransaction = { ...transaction, description, value };
       await db
         .collection("transactions")
         .updateOne({ _id: transactionId }, { $set: editedTransaction });
       res.sendStatus(201);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  }
+
+  async deleteTransaction(req, res) {
+    const { id } = req.params;
+    const transactionId = new ObjectId(id);
+    const db = getDataBase();
+    try {
+      await db.collection("transactions").deleteOne({ _id: transactionId });
+      res.status(204).send("Usuário deletado com sucesso");
     } catch (err) {
       res.status(500).send(err.message);
     }
